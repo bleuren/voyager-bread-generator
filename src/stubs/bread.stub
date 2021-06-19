@@ -1,4 +1,5 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use VoyagerBread\Traits\BreadSeeder;
@@ -11,14 +12,21 @@ class DummyClassBreadSeeder extends Seeder
     {
         return [
             // usually the name of the table
-            'name'                  => 'DummySnakeCaseSingular',
+            'name'                  => 'DummySnakeCasePlural',
+            'slug'                  => 'DummyKebabCasePlural',
             'display_name_singular' => 'DummyStudlyCaseSingular',
             'display_name_plural'   => 'DummyStudlyCasePlural',
-            'icon'                  => '',
-            'model_name'            => 'App\DummyStudlyCaseSingular',
-            'controller'            => '',
+            'icon'                  => 'voyager-categories',
+            'model_name'            => 'App\Models\DummyStudlyCaseSingular',
+            'controller'            => null,
             'generate_permissions'  => 1,
-            'description'           => '',
+            'description'           => null,
+            'details'               => [
+                "order_column" => null,
+                "order_display_column" => null,
+                "order_direction" => "asc",
+                "default_search_key" => null
+                ]
         ];
     }
 
@@ -43,9 +51,9 @@ class DummyClassBreadSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 0,
+                'edit'         => 1,
                 'add'          => 0,
-                'delete'       => 0,
+                'delete'       => 1,
                 'details'      => '',
                 'order'        => 2,
             ],
@@ -67,15 +75,16 @@ class DummyClassBreadSeeder extends Seeder
     public function menuEntry()
     {
         return [
-            'role'      => 'admin',
-            'title'      => 'DummyStudlyCasePlural',
-            'url'        => '',
-            'route'      => 'voyager.DummySnakeCasePlural.index',
-            'target'     => '_self',
-            'icon_class' => 'voyager-basket',
-            'color'      => null,
-            'parent_id'  => null,
-            'order'      => 8,
+            'role'        => 'admin',
+            'title'       => 'DummyTitleCasePlural',
+            'url'         => '',
+            'route'       => 'voyager.DummyKebabCasePlural.index',
+            'target'      => '_self',
+            'icon_class'  => 'voyager-categories',
+            'color'       => null,
+            'parent_id'   => null,
+            'parameters' => null,
+            'order'       => 8,
         ];
     }
 }

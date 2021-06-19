@@ -56,7 +56,7 @@ class BreadGenerator extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        return $this->replacePlaceholders($stub)->replaceNamespace($stub, $name)->replaceClass($stub, $name);
+        return $this->replacePlaceholders($stub)->replaceNamespace($stub, $name)->replaceClass($stub, Str::plural($name));
     }
 
     /**
@@ -72,13 +72,42 @@ class BreadGenerator extends GeneratorCommand
             'DummyStudlyCaseSingular' => Str::studly($name),
             'DummyStudlyCasePlural' => Str::plural(Str::studly($name)),
             'DummySnakeCaseSingular' => Str::snake($name),
-            'DummySnakeCasePlural' => Str::plural(Str::snake($name))
+            'DummySnakeCasePlural' => Str::plural(Str::snake($name)),
+            'DummyKebabCaseSingular' => $this->actualKebab( Str::kebab( $name ) ),
+            'DummyKebabCasePlural' => $this->actualKebab( Str::kebab( Str::plural($name))),
+            'DummyTitleCaseSingular' => $this->spacedTitle(Str::title($name)),
+            'DummyTitleCasePlural' => $this->spacedTitle(Str::title(Str::plural($name)))
         ]);
         foreach ($replacements as $placeholder => $replacement) {
             $stub = str_replace($placeholder, $replacement, $stub);
         }
 
         return $this;
+    }
+
+    /**
+     * Force conversion to kebab-case
+     * 
+     * @param string $input
+     * @return string
+     */
+
+    protected function actualKebab( $input = '' ){
+        return str_replace( '_', '-', $input);
+    }
+
+    /**
+     * Force conversion to Spaced Title Case
+     * 
+     * eg: 'this-is_my string'
+     * outputs 'This Is My String'
+     * 
+     * @param string $input
+     * @return string
+     */
+
+    protected function spacedTitle( $input = '' ){
+        return str_replace(['_', '-'], ' ', $input);
     }
 
     /**
@@ -91,7 +120,7 @@ class BreadGenerator extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return  base_path('database/seeds').'/'.str_replace('\\', '/', Str::plural($name)).'BreadSeeder.php';
+        return  base_path('database/seeders').'/'.str_replace('\\', '/', Str::plural($name)).'BreadSeeder.php';
     }
 
     /**
@@ -101,7 +130,7 @@ class BreadGenerator extends GeneratorCommand
      */
     protected function getNameInput()
     {
-        return trim(studly_case($this->argument('name')));
+        return trim(Str::studly($this->argument('name')));
     }
 
     /**
@@ -126,7 +155,7 @@ class BreadGenerator extends GeneratorCommand
      */
     protected function createModel()
     {
-        $table = studly_case($this->argument('name'));
+        $table = Str::studly($this->argument('name'));
         $this->call('make:model', [
             'name' => $table
         ]);

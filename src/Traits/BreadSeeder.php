@@ -30,7 +30,7 @@ trait BreadSeeder
      */
     public function createDataType()
     {
-        $dataType = $this->dataType('slug', $this->bread()['name']);
+        $dataType = $this->dataType('slug', $this->bread()['slug']);
         if (!$dataType->exists) {
             $dataType->fill($this->bread())->save();
         }
@@ -44,7 +44,7 @@ trait BreadSeeder
      */
     public function createInputFields()
     {
-        $productDataType = DataType::where('slug', $this->bread()['name'])->firstOrFail();
+        $productDataType = DataType::where('slug', $this->bread()['slug'])->firstOrFail();
 
         collect($this->inputFields())->each(function ($field, $key) use ($productDataType) {
             $dataRow = $this->dataRow($productDataType, $key);
