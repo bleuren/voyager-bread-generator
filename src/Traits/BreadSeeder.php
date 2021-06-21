@@ -52,7 +52,6 @@ trait BreadSeeder
                 $dataRow->fill($field)->save();
             }
         });
-
     }
 
     /**
